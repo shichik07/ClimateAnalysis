@@ -217,8 +217,10 @@ win_tree = RandomForestRegressor(n_estimators = rfp['n_estimators'],
                                  min_samples_split = rfp['min_samples_split'], 
                                  max_depth = rfp['max_depth'], random_state= 42)
 win_tree.fit(X_train, y_train)
+win_tree.score(X_test, y_test)
 
 
+rfor_grid.best_params_
 # get the winning boosted trees to get feature importance
 win_boost = GradientBoostingRegressor(learning_rate=bp['learning_rate'], 
                                       n_estimators=bp['n_estimators'],
