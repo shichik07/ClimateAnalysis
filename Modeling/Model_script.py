@@ -129,8 +129,8 @@ Test_year = X_test.year
 Test_country = X_test.country
 
 # scale variables
-X_train[['co2_cum', 'co2', 'population', 'gdp','continent', 'country', 'year']] = col_transform2.fit_transform(X_train)
-X_test[['co2_cum', 'co2', 'population', 'gdp','continent', 'country', 'year']] = col_transform2.transform(X_test)
+X_train[['co2_cum_total','co2_cum', 'co2', 'population', 'gdp','continent', 'country', 'year']] = col_transform2.fit_transform(X_train)
+X_test[['co2_cum_total','co2_cum', 'co2', 'population', 'gdp','continent', 'country', 'year']] = col_transform2.transform(X_test)
 
 
 # create models
