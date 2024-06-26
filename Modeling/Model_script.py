@@ -80,6 +80,8 @@ co2_transform = CO2_cum(CO2_col_name = "co2", country_col_name = "country", year
 rad_scale = radian_scaler(name_longitude = "longitude", name_latitude = "latitude")
 # standardize CO_2 cumulative measures
 co2cum_scale = MinMaxScaler()
+# standardize CO_2 cumulative totl measures
+co2cum_t_scale = MinMaxScaler()
 # standardize CO_2 measures
 co2_scale = MinMaxScaler()
 # standardize population measures
@@ -101,6 +103,7 @@ col_transform1 = make_column_transformer((co2_transform, ["co2", "country", "yea
 
 # things to be done after split
 col_transform2 = make_column_transformer(
+                                            (co2cum_t_scale, ['co2_cum_total']),
                                              (co2cum_scale, ['co2_cum']),
                                             (co2_scale, ['co2']),
                                             (pop_scale, ['population']),
@@ -113,15 +116,9 @@ col_transform2 = make_column_transformer(
 df_default[["co2", "country", "year", 'co2_cum', 'co2_cum_total',"longitude", "latitude"]] = col_transform1.fit_transform(df_default)
 
 # make the relevant variables numeric
-for col in ["co2", "year", "longitude", "latitude", 'co2_cum']:
+for col in ["co2", "year", "longitude", "latitude", 'co2_cum', 'co2_cum_total']:
     df_default[col] = pd.to_numeric(df_default[col])
-    
-df_default.info()    
-df_default1 = pd.read_csv("Data/data_clean/default_copy.csv").sort_values(by="country")
-df_default1 = df_default1.drop("Unnamed: 0", axis = 1)
 
-
-df_default == df_default1
 # split into test- and training set
 target = df_default.temp_anomaly
 features = df_default.drop(['temp_anomaly'], axis = 1)#, 'co2_cum',"longitude", "latitude"], axis = 1) # we exclude country because we have latitude and longitude instead
